@@ -20,13 +20,12 @@ import { useAlertContext } from "../context/alertContext";
 const LandingSection = () => {
   const { onOpen } = useAlertContext();
   const { isLoading, response, submit } = useSubmit();
-
   const formik = useFormik({
     initialValues: {
       firstName: "",
       email: "",
       comment: "",
-      type: "",
+      type: "hireMe",
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -39,12 +38,16 @@ const LandingSection = () => {
       .max(300, "Too Long!")
       .required("Required"),
     }),
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      submit(values);
+    },
   });
 
   // const handleChange = (e) => {
   //   set
+  // 
   // }
+  console.log(isLoading);
 
   return (
     <FullScreenSection
@@ -58,7 +61,7 @@ const LandingSection = () => {
           Contact me
         </Heading>
         <Box p={6} rounded="md" w="100%">
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <VStack spacing={4}>
               <FormControl isInvalid={formik.touched.firstName && formik.errors.firstName}>
                 <FormLabel htmlFor="firstName">Name</FormLabel>
@@ -112,7 +115,7 @@ const LandingSection = () => {
                 <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
               <Button type="submit" colorScheme="purple" width="full">
-                Submit
+                {isLoading? 'Loading ...': 'Submit'}
               </Button>
             </VStack>
           </form>
