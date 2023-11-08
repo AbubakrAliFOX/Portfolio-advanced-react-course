@@ -34,8 +34,7 @@ const LandingSection = () => {
         .required("Required"),
       email: Yup.string().email("Invalid email").required("Required"),
       comment: Yup.string()
-        .min(5, "Too Short!")
-        .max(300, "Too Long!")
+        .min(25, "At least 25 charachters!")
         .required("Required"),
     }),
     onSubmit: (values) => {
